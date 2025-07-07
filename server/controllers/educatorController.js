@@ -8,8 +8,6 @@ import User from '../models/User.js';
 export const updateRoleToEducator = async (req, res) => {
   try {
     const userId = req.auth.userId
-    console.log("req.auth is ", req.auth());
-    console.log("req.auth userId is ", req.auth.userId);
 
     await clerkClient.users.updateUserMetadata(userId, {
       publicMetadata: {
@@ -28,20 +26,20 @@ export const updateRoleToEducator = async (req, res) => {
 export const addCourse = async (req, res) => {
   try {
     const { courseData } = req.body
-    console.log("course data is ", courseData);
+    // console.log("course data is ", courseData);
     const imageFile = req.file
-    console.log("req file is ", imageFile);
+    // console.log("req file is ", imageFile);
     const educatorId = req.auth.userId;
     if (!imageFile) {
       return res.json({ success: false, message: "Thumbnail Not Attached" })
     }
     const parsedCourseData = await JSON.parse(courseData)
-    console.log("parsedCourseData Is ", parsedCourseData);
+    // console.log("parsedCourseData Is ", parsedCourseData);
     parsedCourseData.educator = educatorId
     const newCourse = await Course.create(parsedCourseData)
-    console.log(newCourse);
+    // console.log(newCourse);
     const imageUpload = await cloudinary.uploader.upload(imageFile.path)
-    console.log(imageUpload);
+    // console.log(imageUpload);
     newCourse.courseThumbnail = imageUpload.secure_url
     await newCourse.save()
 
