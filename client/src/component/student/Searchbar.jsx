@@ -16,7 +16,7 @@ const Searchbar = ({data}) => {
       <img src={assets.search_icon} alt="search_icon" className='md:w-auto w-10 px-3' style={{ marginTop: "13px", height: "25px" }}
 />
       <input type="text" placeholder='Search for courses' className='w-full h-full outline-none text-gray-500/80' onChange={(e)=>{setInput(e.target.value)}} value={input}/>
-      <button type='submit' className='bg-blue-600 rounded text-white md:px-10 px-7 md:py-3 py-2 mx-1' style={{marginRight:"4px",height:"46px",marginTop:"4.5px"}}>Search</button>
+      <button type='submit' className='bg-blue-600 rounded text-white md:px-10 px-7 md:py-3 py-2 mx-1 mr-1 mt-1 md:h-[46px] h-[37px]'>Search</button>
     </form>
   )
 }
