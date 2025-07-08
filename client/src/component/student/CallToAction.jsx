@@ -1,11 +1,15 @@
 import React, { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { assets } from '../../assets/assets'
-import FeatureModal from './FeatureModal'  
+import FeatureModal from './FeatureModal'
+import { useClerk, UserButton, useUser } from '@clerk/clerk-react'
 
 const CallToAction = () => {
   const navigate = useNavigate();
   const [showModal, setShowModal] = useState(false);
+  const { openSignIn } = useClerk();
+
+  const { user } = useUser();
 
   return (
     <div className='flex flex-col items-center gap-4 pt-10 pb-24 px-8 md:px-0'>
@@ -15,11 +19,20 @@ const CallToAction = () => {
       </p>
 
       <div className='flex items-center font-medium gap-6 mt-4'>
-        <button
-          className='px-10 py-3 rounded-md text-white bg-blue-600' 
-        >
-          Get started
-        </button>
+        <div>
+          {user ? <button
+            className='px-10 py-3 rounded-md text-white bg-blue-600'
+          >
+            Get started
+          </button> :
+            <button
+              onClick={() => { openSignIn() }}
+              className='px-10 py-3 rounded-md text-white bg-blue-600'
+            >
+              Get started
+            </button>
+          }
+        </div>
 
         <button
           className='flex items-center gap-2'
