@@ -104,20 +104,36 @@ export const getEnrolledStudentData = async (req, res) => {
   try {
     const educator = req.auth.userId;
     const courses = await Course.find({ educator });
-     const courseIds = courses.map((course) => course._id)
+    const courseIds = courses.map((course) => course._id)
     const purchases = await Purchase.find({
-      courseId:{$in:courseIds},
-      status:"completed"
-    }).populate('userId','name imageUrl').populate('courseId','courseTitle')    
+      courseId: { $in: courseIds },
+      status: "completed"
+    }).populate('userId', 'name imageUrl').populate('courseId', 'courseTitle')
 
-    const enrolledStudents=purchases.map(purchase=>({
-      student:purchase.userId,
-      courseTitle:purchase.courseId.courseTitle,
-      purchaseDate:purchase.createdAt
+    const enrolledStudents = purchases.map(purchase => ({
+      student: purchase.userId,
+      courseTitle: purchase.courseId.courseTitle,
+      purchaseDate: purchase.createdAt
     }));
 
-    res.json({success:true,enrolledStudents});
+    res.json({ success: true, enrolledStudents });
   } catch (error) {
-    res.json({success:false,message:error.message});
+    res.json({ success: false, message: error.message });
+  }
+}
+
+// delete course 
+
+export const deleteCourse = async (req, res) => {
+  try {
+    const {courseId} = req.params
+    await Course.findByIdAndDelete(courseId);
+    await User.updateMany(
+      { enrolledCourses: courseId },
+      { $pull: { enrolledCourses: courseId } }
+    );
+    res.json({success:true,message:"course deleted"})
+  } catch (error) {
+    res.json({ success: false,message:"error kuch yaha hai" });
   }
 }

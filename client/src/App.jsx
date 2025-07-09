@@ -17,6 +17,7 @@ import "quill/dist/quill.snow.css";
 import ContactUs from './pages/student/contactUs'
 import AboutUs from './pages/student/AboutUs'
 import PrivacyPolicy from './pages/student/PrivacyPolicy'
+import DeleteCoursesGrid from './pages/educator/DeleteCoursesGrid'
 
 const App = () => {
   const isEducatorPage=useMatch('/educator/*');
@@ -41,6 +42,7 @@ const App = () => {
             <Route path='/educator' element={<Dashboard/>}/>
             <Route path='add-course' element={<Addcourse/>}/>
             <Route path='my-course' element={<Mycourses/>}/>
+            <Route path='delete-courses' element={<DeleteCoursesGrid/>}/>
             <Route path='student-enrolled' element={<StudentsEnrolled/>}/>
         </Route>
       </Routes>

@@ -18,6 +18,7 @@ export const AppContextProvider = (props) => {
     const { getToken } = useAuth()
     const { user } = useUser()
 
+    
     //function to calculate avg. rating of a course
     const calculateRating = (course) => {
         if (course.courseRatings.length === 0) {
@@ -99,6 +100,7 @@ export const AppContextProvider = (props) => {
         }
         try {
             const token = await getToken();
+            // console.log(token);
             const { data } = await axios.get(backendUrl + "/api/user/data", { headers: { Authorization: `Bearer ${token}` } })
 
             if (data.success) {
