@@ -18,6 +18,8 @@ import ContactUs from './pages/student/contactUs'
 import AboutUs from './pages/student/AboutUs'
 import PrivacyPolicy from './pages/student/PrivacyPolicy'
 import DeleteCoursesGrid from './pages/educator/DeleteCoursesGrid'
+import UpdateCourseGrid from './pages/educator/UpdateCourseGrid'
+import UpdateCourse from './pages/educator/updateCourse'
 
 const App = () => {
   const isEducatorPage=useMatch('/educator/*');
@@ -43,6 +45,8 @@ const App = () => {
             <Route path='add-course' element={<Addcourse/>}/>
             <Route path='my-course' element={<Mycourses/>}/>
             <Route path='delete-courses' element={<DeleteCoursesGrid/>}/>
+            <Route path='update-courses' element={<UpdateCourseGrid/>}/>
+            <Route path='update-courses/:courseId' element={<UpdateCourse />} />
             <Route path='student-enrolled' element={<StudentsEnrolled/>}/>
         </Route>
       </Routes>

@@ -137,3 +137,26 @@ export const deleteCourse = async (req, res) => {
     res.json({ success: false,message:"error kuch yaha hai" });
   }
 }
+// update-course
+export const UpdateCourse=async (req,res)=>{
+   const { courseData } = req.body;
+   const imageFile = req.file
+  const parsed = JSON.parse(courseData);
+   const imageUpload = await cloudinary.uploader.upload(imageFile.path)
+
+  const updateFields = {
+    courseTitle: parsed.courseTitle,
+    coursePrice: parsed.coursePrice,
+    discount: parsed.discount,
+    courseContent: parsed.courseContent,
+    courseDescription: parsed.courseDescription,
+  };
+
+  if (imageUpload.secure_url) {
+    updateFields.thumbnail = imageUpload.secure_url
+  }
+
+  await Course.findByIdAndUpdate(req.params.courseId, { $set: updateFields }, { new: true });
+
+  res.json({ success: true, message: "Course updated successfully" });
+}
