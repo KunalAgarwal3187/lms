@@ -43,9 +43,13 @@ import profile_img2 from './profile_img2.png'
 import profile_img3 from './profile_img3.png'
 import lesson_icon from './lesson_icon.svg'
 import Elearning from './Elearning.jpg'
+import newupdate from './edit-2.svg'
+import newDelete from './trash.svg'
 
 
 export const assets = {
+    newDelete,
+    newupdate,
     Elearning,
     logo,
     search_icon,

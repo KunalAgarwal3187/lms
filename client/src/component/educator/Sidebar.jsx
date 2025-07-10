@@ -12,8 +12,8 @@ const Sidebar = () => {
     {name: 'Add Courses', path: '/educator/add-course', icon: assets.add_icon},
     {name: 'My Courses', path: '/educator/my-course', icon: assets.my_course_icon},
     {name: 'Student Enrolled', path: '/educator/student-enrolled', icon: assets.person_tick_icon},
-    {name: 'update Course', path: '/educator/update-courses', icon: assets.home_icon},
-    {name: 'Delete Course', path: '/educator/delete-courses', icon: assets.home_icon},
+    {name: 'update Course', path: '/educator/update-courses', icon: assets.newupdate},
+    {name: 'Delete Course', path: '/educator/delete-courses', icon: assets.newDelete},
   ];
   return isEducator && (
     <div className='md:w-64 w-16 border-r min-h-screen text-base border-gray-500 py-2 flex flex-col'>
