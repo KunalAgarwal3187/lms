@@ -161,3 +161,27 @@ export const addUserRatings = async (req, res) => {
         res.json({success:false,message:error.message})
     }
 }
+// set completed true in courseprogress
+
+export const UpdateCompleteTrue = async (req, res) => {
+  try {
+    const userId = req.auth.userId 
+    const { courseId, completed } = req.body;
+
+    const progress = await CourseProgress.findOne({ userId, courseId });
+
+    if (!progress) {
+      return res.status(404).json({ success:true,message: "Course progress not found" });
+    }
+
+    progress.completed = completed;
+
+    await progress.save();
+
+    res.status(200).json({ });
+
+  } catch (error) {
+    console.error("Error updating course progress:", error);
+    res.status(500).json({ message: "Server error" });
+  }
+};

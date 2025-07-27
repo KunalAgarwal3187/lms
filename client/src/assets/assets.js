@@ -45,9 +45,18 @@ import lesson_icon from './lesson_icon.svg'
 import Elearning from './Elearning.jpg'
 import newupdate from './edit-2.svg'
 import newDelete from './trash.svg'
+import newimage from './newimage.jpg'
+import newudify from './newudify.jpg'
+import udify from './udify.jpg'
+import trythis from './try.png'
+
 
 
 export const assets = {
+    trythis,
+    newudify,
+    newimage,
+    udify,
     newDelete,
     newupdate,
     Elearning,

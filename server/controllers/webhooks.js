@@ -8,6 +8,16 @@ import Course from '../models/Course.js';
 //API controller function to manage clerk user with database  
 
 export const clerkWebhooks = async (req, res) => {
+
+    const generateReferralCode = async () => {
+        const chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+        let code = "";
+        for (let i = 0; i < 7; i++) {
+            code += chars[Math.floor(Math.random() * chars.length)];
+        }
+        return "EDMY" + code;
+    };
+
     try {
         const whook = new Webhook(process.env.CLERK_WEBHOOK_SECRET)
 
@@ -20,7 +30,7 @@ export const clerkWebhooks = async (req, res) => {
         })
 
         const { data, type } = req.body
-        console.log("user data is ", data);
+        // console.log("user data is ", data);
 
         switch (type) {
             case 'user.created': {
@@ -29,10 +39,14 @@ export const clerkWebhooks = async (req, res) => {
                     email: data.email_addresses[0].email_address,
                     name: data.first_name + " " + data.last_name,
                     imageUrl: data.image_url,
+                    referralCode: await generateReferralCode(),
+                    wallet: { popcoins: 100 }
                 }
-                await User.create(userData)
-                res.json({})
-                break;
+                console.log("userData being saved:", userData);
+               const userNew =  await User.create(userData)
+               const savedUser = await User.findById(userNew._id);
+                res.json({savedUser});
+                return;
             }
 
             case 'user.updated': {
@@ -73,7 +87,7 @@ export const stripeWebhooks = async (request, response) => {
     } catch (error) {
         response.status(400).send(`Webhook Error: ${error.message}`);
     }
-    
+
     //Handle the event 
 
     switch (event.type) {

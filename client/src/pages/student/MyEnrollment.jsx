@@ -27,17 +27,37 @@ const MyEnrollment = () => {
     }
   }
 
-  useEffect(()=>{
-    if(userData){
+  //UpdateCourse Complete as True
+  const markCourseCompleted = async (courseId) => {
+    try {
+      const token = await getToken();
+      const { data } = await axios.put(`${backendUrl}/api/user/update-course-Complete`, {
+        courseId,
+        completed: true
+      }, {
+        headers: { Authorization: `Bearer ${token}` }
+      });
+
+      if (!data.success) {
+        toast.error(data.message)
+      }
+    } catch (err) {
+      toast.error("Failed to mark course as completed");
+    }
+  };
+
+
+  useEffect(() => {
+    if (userData) {
       userEnrolledCourses()
     }
-  },[userData])
+  }, [userData])
 
-  useEffect(()=>{
-    if(enrolledCourses.length>0){
+  useEffect(() => {
+    if (enrolledCourses.length > 0) {
       getCourseProgress()
     }
-  },[enrolledCourses])
+  }, [enrolledCourses])
 
   return (
     <>
@@ -69,7 +89,24 @@ const MyEnrollment = () => {
                   {progressArray[index] && `${progressArray[index].lecturecomplete} / ${progressArray[index].totallectures}`} <span>Lectures</span>
                 </td>
                 <td className='px-4 py-3 max-sm:text-right'>
-                  <button className='px-3 sm:px-5 py-1.5 sm:py-2 bg-blue-600 max-sm:text-xs text-white rounded' onClick={() => navigate('/player/' + course._id)}>{progressArray[index] && progressArray[index].lecturecomplete === progressArray[index].totallectures ? "Completed" : "On Going"}</button>
+                  {progressArray[index] && progressArray[index].lecturecomplete === progressArray[index].totallectures ? (
+                    <button
+                      className='px-3 sm:px-5 py-1.5 sm:py-2 bg-green-600 max-sm:text-xs text-white rounded'
+                      onClick={() => {
+                        markCourseCompleted(course._id);
+                        navigate('/player/' + course._id);
+                      }}
+                    >
+                      Completed
+                    </button>
+                  ) : (
+                    <button
+                      className='px-3 sm:px-5 py-1.5 sm:py-2 bg-blue-600 max-sm:text-xs text-white rounded'
+                      onClick={() => navigate('/player/' + course._id)}
+                    >
+                      On Going
+                    </button>
+                  )}
                 </td>
               </tr>
             ))}

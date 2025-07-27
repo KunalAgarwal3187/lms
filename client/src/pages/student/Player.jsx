@@ -1,6 +1,6 @@
 import React, { useContext, useEffect, useState } from 'react'
 import { AppContext } from '../../context/AppContext';
-import { useParams } from 'react-router-dom';
+import { Link, useParams } from 'react-router-dom';
 import { assets } from '../../assets/assets';
 import humanizeDuration from 'humanize-duration';
 import YouTube from 'react-youtube';
@@ -55,7 +55,7 @@ const Player = () => {
   const getCourseProgress = async () => {
     try {
       const token = await getToken();
-      const { data } = await axios.post(backendUrl + "/api/user/get-course-progress", {courseId }, { headers: { Authorization: `Bearer ${token}` } })
+      const { data } = await axios.post(backendUrl + "/api/user/get-course-progress", { courseId }, { headers: { Authorization: `Bearer ${token}` } })
 
       if (data.success) {
         setProgressData(data.progressData)
@@ -145,6 +145,32 @@ const Player = () => {
               </div>
 
             ))}
+          </div>
+
+          {/* Certificate Section */}
+          <div className='bg-gradient-to-b from-white to-gray-100 py-6 px-4 rounded shadow border border-gray-200 my-6'>
+            <div className='flex flex-col md:flex-row justify-between items-center gap-4'>
+              <div>
+                <h3 className='font-semibold text-lg'>Certificates</h3>
+                <p className='text-gray-600 text-sm'>Get Edemy certificate by completing entire course</p>
+              </div>
+
+              {progressData?.completed ? (
+                <Link
+                  to={`/certificate-test/${courseId}`}
+                  className="border border-black text-black font-semibold px-4 py-2 mt-2 md:mt-0 rounded hover:bg-black hover:text-white transition"
+                >
+                  🎓 Edemy Certificate
+                </Link>
+              ) : (
+                <button
+                  disabled
+                  className="border border-gray-400 text-gray-500 font-semibold px-4 py-2 mt-2 md:mt-0 rounded cursor-not-allowed"
+                >
+                  Complete Course to Unlock
+                </button>
+              )}
+            </div>
           </div>
 
           <div className='flex items-center gap-2 py-3 mt-10'>
