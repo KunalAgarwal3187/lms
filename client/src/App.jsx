@@ -19,7 +19,7 @@ import AboutUs from './pages/student/AboutUs'
 import PrivacyPolicy from './pages/student/PrivacyPolicy'
 import DeleteCoursesGrid from './pages/educator/DeleteCoursesGrid'
 import UpdateCourseGrid from './pages/educator/UpdateCourseGrid'
-import UpdateCourse from './pages/educator/updateCourse'
+import UpdateCourse from './pages/educator/UpdateCourse'
 
 const App = () => {
   const isEducatorPage=useMatch('/educator/*');
