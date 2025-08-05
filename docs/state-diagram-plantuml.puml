@@ -1,0 +1,195 @@
+@startuml Edemy_LMS_State_Diagram
+
+!theme plain
+skinparam backgroundColor #FFFFFF
+skinparam state {
+    BackgroundColor #E8F4FD
+    BorderColor #2E86AB
+    FontColor #2E86AB
+    FontSize 12
+}
+
+skinparam stateArrow {
+    Color #2E86AB
+    FontColor #2E86AB
+    FontSize 10
+}
+
+title Edemy LMS - Complete State Diagram
+
+[*] --> Unauthenticated
+
+' Authentication States
+Unauthenticated --> Registering : User Registration
+Unauthenticated --> LoggingIn : User Login
+Registering --> Authenticated : Registration Success
+Registering --> Unauthenticated : Registration Failed
+LoggingIn --> Authenticated : Login Success
+LoggingIn --> Unauthenticated : Login Failed
+Authenticated --> StudentDashboard : Role = Student
+Authenticated --> EducatorDashboard : Role = Educator
+Authenticated --> Unauthenticated : Logout
+
+' Student Dashboard States
+StudentDashboard --> BrowsingCourses : Browse Courses
+StudentDashboard --> MyEnrollments : View Enrollments
+StudentDashboard --> Profile : Manage Profile
+StudentDashboard --> Authenticated : Logout
+
+' Course Browsing States
+BrowsingCourses --> CourseDetails : Select Course
+BrowsingCourses --> StudentDashboard : Back to Dashboard
+CourseDetails --> PaymentProcessing : Enroll in Course
+CourseDetails --> BrowsingCourses : Back to Browse
+CourseDetails --> PreviewLecture : Watch Preview
+
+' Payment Processing States
+PaymentProcessing --> StripeCheckout : Create Checkout Session
+StripeCheckout --> PaymentPending : Payment Initiated
+StripeCheckout --> PaymentFailed : Payment Failed
+PaymentPending --> PaymentSuccess : Payment Confirmed
+PaymentPending --> PaymentFailed : Payment Failed
+PaymentSuccess --> Enrolled : Enrollment Complete
+PaymentFailed --> CourseDetails : Retry Payment
+
+' Learning States
+Enrolled --> CoursePlayer : Start Learning
+CoursePlayer --> WatchingLecture : Play Video
+WatchingLecture --> LecturePaused : Pause Video
+WatchingLecture --> LectureCompleted : Complete Lecture
+LecturePaused --> WatchingLecture : Resume Video
+LectureCompleted --> CoursePlayer : Next Lecture
+CoursePlayer --> CourseCompleted : All Lectures Done
+CourseCompleted --> Certificate : Generate Certificate
+
+' Educator Dashboard States
+EducatorDashboard --> CreateCourse : Create New Course
+EducatorDashboard --> ManageCourses : Manage Existing
+EducatorDashboard --> Analytics : View Analytics
+EducatorDashboard --> Authenticated : Logout
+
+' Course Creation States
+CreateCourse --> CourseDraft : Save Draft
+CreateCourse --> CourseEditing : Edit Course
+CourseDraft --> CourseEditing : Edit Draft
+CourseEditing --> CourseDraft : Save Changes
+CourseEditing --> CourseReady : Complete Course
+CourseReady --> CoursePublished : Publish Course
+CourseReady --> CourseDraft : Save as Draft
+CoursePublished --> CourseUnpublished : Unpublish
+CourseUnpublished --> CoursePublished : Republish
+
+' Course Management States
+ManageCourses --> CourseEditing : Edit Course
+ManageCourses --> CourseAnalytics : View Analytics
+CourseAnalytics --> ManageCourses : Back to List
+
+' Profile Management States
+Profile --> ProfileEditing : Edit Profile
+ProfileEditing --> Profile : Save Changes
+ProfileEditing --> Profile : Cancel Changes
+Profile --> Authenticated : Logout
+
+' Enrollment Management States
+MyEnrollments --> CoursePlayer : Continue Learning
+MyEnrollments --> StudentDashboard : Back to Dashboard
+
+' Certificate States
+Certificate --> StudentDashboard : Back to Dashboard
+Certificate --> ShareCertificate : Share Certificate
+
+' Analytics States
+Analytics --> RevenueAnalytics : View Revenue
+Analytics --> StudentAnalytics : View Students
+Analytics --> CourseAnalytics : View Course Performance
+RevenueAnalytics --> Analytics : Back to Analytics
+StudentAnalytics --> Analytics : Back to Analytics
+CourseAnalytics --> Analytics : Back to Analytics
+
+' Error Handling States
+PaymentFailed --> ErrorHandling : Handle Error
+ErrorHandling --> PaymentProcessing : Retry Payment
+ErrorHandling --> CourseDetails : Cancel Payment
+
+' State Descriptions
+note right of Unauthenticated
+  User not logged in
+  Actions: Register, Login
+end note
+
+note right of Authenticated
+  User successfully logged in
+  Data: JWT token, User profile, Role
+end note
+
+note right of StudentDashboard
+  Main student interface
+  Data: Enrolled courses, Progress
+end note
+
+note right of EducatorDashboard
+  Main educator interface
+  Data: Course list, Analytics summary
+end note
+
+note right of PaymentProcessing
+  Initiating course enrollment
+  Data: Course details, Price
+end note
+
+note right of PaymentSuccess
+  Payment completed successfully
+  Data: Payment confirmation
+end note
+
+note right of Enrolled
+  Successfully enrolled in course
+  Data: Course access, Enrollment data
+end note
+
+note right of CoursePlayer
+  Main learning interface
+  Data: Course content, Progress
+end note
+
+note right of WatchingLecture
+  Actively watching video
+  Data: Video player state
+end note
+
+note right of LectureCompleted
+  Lecture finished
+  Data: Completion timestamp
+end note
+
+note right of CourseCompleted
+  All content completed
+  Data: Completion data
+end note
+
+note right of Certificate
+  Course completion certificate
+  Data: Certificate data
+end note
+
+note right of CreateCourse
+  Creating new course content
+  Data: Course form data
+end note
+
+note right of CourseDraft
+  Course saved as draft
+  Data: Draft course data
+end note
+
+note right of CoursePublished
+  Course is live and available
+  Data: Published course data
+end note
+
+note right of Analytics
+  Main analytics dashboard
+  Data: Analytics summary
+end note
+
+@enduml 
