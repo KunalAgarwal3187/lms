@@ -61,6 +61,7 @@ const MyEnrollment = () => {
 
   return (
     <>
+    <div className="flex flex-col min-h-screen">
       <div className='md:px-36 px-8 pt-10'>
         <h1 className='text-2xl font-semibold'>My Enrollment</h1>
         <table className='table-auto table-fixed w-full overflow-hidden border mt-10'>
@@ -112,6 +113,7 @@ const MyEnrollment = () => {
             ))}
           </tbody>
         </table>
+      </div>
       </div>
       <Footer />
     </>
