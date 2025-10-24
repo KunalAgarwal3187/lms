@@ -6,6 +6,7 @@ import CorseCard from './CorseCard';
 const CoursesSection = () => {
 
   const { allCourse } = useContext(AppContext);
+  console.log(allCourse);
   
   return (
     <div className='py-16 md:px-40 px-8'>

@@ -12,7 +12,7 @@ const Searchbar = ({data}) => {
   }
 
   return (
-    <form onSubmit={OnSearchHandler} className='max-w-xl w-full md:h-14 h-12 flex item-center bg-white border border-gray-500/20 rounded'>
+    <form onSubmit={OnSearchHandler} className='max-w-xl w-full md:h-14 h-12 flex item-center bg-white border borEmpowerder-gray-500/20 rounded'>
       <img src={assets.search_icon} alt="search_icon" className='md:w-auto w-10 px-3' style={{ marginTop: "13px", height: "25px" }}
 />
       <input type="text" placeholder='Search for courses' className='w-full h-full outline-none text-gray-500/80' onChange={(e)=>{setInput(e.target.value)}} value={input}/>

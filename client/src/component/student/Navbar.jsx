@@ -16,6 +16,8 @@ const Navbar = () => {
 
   const { openSignIn } = useClerk();
 
+  // console.log("openSignIn is ----> "+openSignIn);
+
   const { user } = useUser();
 
   const becomeEducator = async () => {
@@ -71,7 +73,7 @@ const Navbar = () => {
           }
         </div>
         {user ? UserButton() :
-          <button onClick={() => { openSignIn() }}><img src={assets.user_icon} alt="" /></button>}
+          <button onClick={() => { openSignIn(),console.log(openSignIn()) }}><img src={assets.user_icon} alt="" /></button>}
       </div>
 
     </div>

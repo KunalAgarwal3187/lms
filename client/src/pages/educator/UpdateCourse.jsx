@@ -25,7 +25,6 @@ const UpdateCourse = () => {
   const [showPopUp, setShowPopUp] = useState(false);
   const [currentChapterId, setCurrentChapterId] = useState(null);
   const { backendUrl, getToken } = useContext(AppContext)
-
   const [lectureDetails, setLectureDetails] = useState(
     {
       lectureTitle: "",

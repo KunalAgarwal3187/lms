@@ -8,21 +8,14 @@ import Course from '../models/Course.js';
 //API controller function to manage clerk user with database  
 
 export const clerkWebhooks = async (req, res) => {
-
-    const generateReferralCode = async () => {
-        const chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
-        let code = "";
-        for (let i = 0; i < 7; i++) {
-            code += chars[Math.floor(Math.random() * chars.length)];
-        }
-        return "EDMY" + code;
-    };
+    console.log("i am enter inside webhook...");
 
     try {
-        const whook = new Webhook(process.env.CLERK_WEBHOOK_SECRET)
-
+        
         // clerk sent JSON which contain eg.({"type":'user.created',"data":{id 23,name: kunal......}},   headers(svix-id: msg_abc123 svix-timestamp: 1719740000 svix-signature: v1,hmac-sha256=abcdef1234567890...))
-
+        const whook = new Webhook(process.env.CLERK_WEBHOOK_SECRET)
+        console.log("webhook is ---> "+whook);
+        
         await whook.verify(JSON.stringify(req.body), {
             "svix-id": req.headers["svix-id"],
             "svix-timestamp": req.headers["svix-timestamp"],
@@ -38,9 +31,7 @@ export const clerkWebhooks = async (req, res) => {
                     _id: data.id,
                     email: data.email_addresses[0].email_address,
                     name: data.first_name + " " + data.last_name,
-                    imageUrl: data.image_url,
-                    referralCode: await generateReferralCode(),
-                    wallet: { popcoins: 100 }
+                    imageUrl: data.image_url
                 }
                 console.log("userData being saved:", userData);
                const userNew =  await User.create(userData)
@@ -58,7 +49,7 @@ export const clerkWebhooks = async (req, res) => {
                 await User.findByIdAndUpdate(data.id, userData)
                 res.json({})
                 break;
-            }
+            }   
 
             case 'user.deleted': {
                 await User.findByIdAndDelete(data.id)
