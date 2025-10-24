@@ -55,7 +55,6 @@ import trythis from './try.png'
 export const assets = {
     trythis,
     newudify,
-    newimage,
     udify,
     newDelete,
     newupdate,
